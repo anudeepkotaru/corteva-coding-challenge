@@ -1,12 +1,3 @@
 # --- Black Configuration ---
 [tool.black]
 line-length = 88
-
-# --- isort Configuration ---
-[tool.isort]
-profile = "black"
-line_length = 88
-
-# --- Flake8 Configuration (can also be in a separate .flake8 file) ---
-# For now, we'll keep it simple. Flake8 is often configured in its own file
-# to handle more complex exclusions.

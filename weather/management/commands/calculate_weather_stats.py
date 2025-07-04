@@ -39,11 +39,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         try:
-            # WeatherStat.objects.all().delete()
             start_time = datetime.now()
             logging.info("[START] Yearly stats computation started at %s", start_time)
 
-            # Clear old stats to avoid duplicates (can be changed to upsert if needed)
+            # Clear old stats to avoid duplicates
             WeatherStat.objects.all().delete()
             logging.info("Cleared existing WeatherStat records.")
 
@@ -67,7 +66,7 @@ class Command(BaseCommand):
                     r.precipitation for r in recs if r.precipitation is not None
                 ]
 
-                # Compute average and totals (no need for unit conversion since already handled during ingestion)
+                # Compute average and totals
                 avg_max = round(sum(max_vals) / len(max_vals), 2) if max_vals else None
                 avg_min = round(sum(min_vals) / len(min_vals), 2) if min_vals else None
                 total_prcp = (

@@ -9,7 +9,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Weather API",
         default_version="v1",
-        description="API for weather and crop yield data",
+        description="API for weather data",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],

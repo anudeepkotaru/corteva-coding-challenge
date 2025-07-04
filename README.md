@@ -47,7 +47,7 @@ pip install -r requirements.txt
 > If `requirements.txt` is missing:
 
 ```bash
-pip install Django djangorestframework drf-yasg django-filter tqdm psycopg2
+pip install Django djangorestframework drf-yasg django-filter tqdm psycopg2 flake8 black
 ```
 
 ### 4. Configure database (PostgreSQL)
@@ -60,7 +60,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'weatherdb',
         'USER': 'postgres',
-        'PASSWORD': 'yourpassword',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
     }

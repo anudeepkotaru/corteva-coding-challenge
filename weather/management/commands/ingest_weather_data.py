@@ -27,7 +27,7 @@ def parse_line(line: str, station_id: str) -> WeatherRecord | None:
     Parameters
     ----------
     line : str
-        The raw input is a tab‑delimited line with (``YYYYMMDD    max_temp    min_temp    prcp``).
+        The raw input is a tab spaced line with (YYYYMMDD max_temp min_temp prcp).
     station_id : str
         station_id is extracted from the file name.
 
@@ -36,6 +36,7 @@ def parse_line(line: str, station_id: str) -> WeatherRecord | None:
     WeatherRecord | None
         Parsed model instance or None if the line is empty.
     """
+
     if not line.strip():
         return None  # skips empty line
 

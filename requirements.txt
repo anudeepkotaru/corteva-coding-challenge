@@ -5,3 +5,5 @@ django-filter==2.4.0
 mysqlclient==2.2.7
 psycopg2==2.9.10
 tqdm== 4.67.1
+black==25.1.0
+flake8==7.3.0
