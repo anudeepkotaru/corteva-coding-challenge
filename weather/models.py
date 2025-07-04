@@ -1,18 +1,20 @@
 from django.db import models
 
+
 class WeatherRecord(models.Model):
     station_id = models.CharField(max_length=20)
     date = models.DateField()
-    max_temp = models.IntegerField(null=True)
-    min_temp = models.IntegerField(null=True)
-    precipitation = models.IntegerField(null=True)
+    max_temp = models.FloatField(null=True)
+    min_temp = models.FloatField(null=True)
+    precipitation = models.FloatField(null=True)
 
     class Meta:
-        unique_together = ('station_id', 'date')
+        unique_together = ("station_id", "date")
         indexes = [
-            models.Index(fields=['station_id']),
-            models.Index(fields=['date']),
+            models.Index(fields=["station_id"]),
+            models.Index(fields=["date"]),
         ]
+
 
 class WeatherStat(models.Model):
     station_id = models.CharField(max_length=20)
@@ -22,8 +24,8 @@ class WeatherStat(models.Model):
     total_precip_cm = models.FloatField(null=True)
 
     class Meta:
-        unique_together = ('station_id', 'year')
+        unique_together = ("station_id", "year")
         indexes = [
-            models.Index(fields=['station_id']),
-            models.Index(fields=['year']),
+            models.Index(fields=["station_id"]),
+            models.Index(fields=["year"]),
         ]

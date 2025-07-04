@@ -16,8 +16,9 @@ LOG_FILE = "weather_ingestion.log"
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
+    format="%(asctime)s [%(levelname)s] %(message)s",
 )
+
 
 # --------- PARSE FUNCTION ---------
 def parse_line(line: str, station_id: str) -> WeatherRecord | None:
@@ -45,38 +46,37 @@ def parse_line(line: str, station_id: str) -> WeatherRecord | None:
         logging.warning(f"Failed to parse line: {line.strip()} | Error: {e}")
         return None
 
-
     # Convert missing values (‑9999) to None
-    def to_int_or_none(value: str) -> float | None:
+    def check_for_none(value: str) -> float | None:
         num = int(value)
         if num == -9999:
             return None
         else:
-            num = int(num)/10
+            num = int(num) / 10
             return num
 
     return WeatherRecord(
         station_id=station_id,
         date=date,
-        max_temp=to_int_or_none(t_max),
-        min_temp=to_int_or_none(t_min),
-        precipitation=to_int_or_none(prcp),
+        max_temp=check_for_none(t_max),
+        min_temp=check_for_none(t_min),
+        precipitation=check_for_none(prcp),
     )
+
 
 class Command(BaseCommand):
     """Load raw weather data files into the database."""
 
-    help = 'Ingest weather data from text files into the WeatherRecord model.'
+    help = "Ingest weather data from text files into the WeatherRecord model."
 
     def handle(self, *args, **kwargs):
         try:
-            WX_DATA_DIR = 'wx_data'
+            WX_DATA_DIR = "wx_data"
             data_dir = pathlib.Path(WX_DATA_DIR).resolve()
             batch_size = 5000
 
             if not data_dir.exists():
                 raise CommandError(f"Directory not found: {data_dir}")
-        
             start_time = datetime.now()
             logging.info(f"Starting ingestion from {data_dir} at {start_time}")
 
@@ -86,7 +86,9 @@ class Command(BaseCommand):
             for filename in tqdm(os.listdir(data_dir)):
                 if not filename.endswith(".txt"):
                     continue
-                station_id = filename.replace(".txt", "")   # Extracting station_id from filename
+                station_id = filename.replace(
+                    ".txt", ""
+                )  # Extracting station_id from filename
                 file_path = os.path.join(data_dir, filename)
 
                 with open(file_path, "r", encoding="utf-8") as f:
@@ -106,11 +108,12 @@ class Command(BaseCommand):
                         created_records += self._bulk_insert(buffer)
 
             end_time = datetime.now()
-            logging.info(f"Ingested {created_records} records in {(end_time - start_time).total_seconds()} seconds.")
-        
+            logging.info(
+                f"Ingested {created_records} records in {(end_time - start_time).total_seconds()} seconds."
+            )
         except Exception as e:
             logging.critical(f"Ingestion failed: {e}")
-        
+
     @staticmethod
     @transaction.atomic
     def _bulk_insert(records: List[WeatherRecord]) -> int:

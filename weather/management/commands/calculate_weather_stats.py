@@ -4,8 +4,9 @@ import logging
 
 from django.core.management.base import BaseCommand
 from weather.models import WeatherRecord, WeatherStat
-from django.db.models import Avg, Sum
-from django.db.models.functions import ExtractYear
+
+# from django.db.models import Avg, Sum
+# from django.db.models.functions import ExtractYear
 from django.db import transaction
 
 
@@ -14,9 +15,8 @@ LOG_FILE = "compute_stats.log"
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
+    format="%(asctime)s [%(levelname)s] %(message)s",
 )
-
 
 
 class Command(BaseCommand):
@@ -34,7 +34,8 @@ class Command(BaseCommand):
         - Calculate and store the stats in the WeatherStat model
         - Overwrite existing stats on each run
     """
-    help = 'Calculate yearly weather statistics per station'
+
+    help = "Calculate yearly weather statistics per station"
 
     def handle(self, *args, **kwargs):
         try:
@@ -59,24 +60,30 @@ class Command(BaseCommand):
             to_create = []
 
             for (station_id, year), recs in stats_map.items():
-            # Extract non-null temperature and precipitation values
+                # Extract non-null temperature and precipitation values
                 max_vals = [r.max_temp for r in recs if r.max_temp is not None]
                 min_vals = [r.min_temp for r in recs if r.min_temp is not None]
-                prcp_vals = [r.precipitation for r in recs if r.precipitation is not None]
+                prcp_vals = [
+                    r.precipitation for r in recs if r.precipitation is not None
+                ]
 
                 # Compute average and totals (no need for unit conversion since already handled during ingestion)
                 avg_max = round(sum(max_vals) / len(max_vals), 2) if max_vals else None
                 avg_min = round(sum(min_vals) / len(min_vals), 2) if min_vals else None
-                total_prcp = round(sum(prcp_vals) / 10, 2) if prcp_vals else None  # convert mm to cm
+                total_prcp = (
+                    round(sum(prcp_vals) / 10, 2) if prcp_vals else None
+                )  # convert mm to cm
 
                 # Create WeatherStat object
-                to_create.append(WeatherStat(
-                    station_id=station_id,
-                    year=year,
-                    avg_max_temp=avg_max,
-                    avg_min_temp=avg_min,
-                    total_precip_cm=total_prcp
-                ))
+                to_create.append(
+                    WeatherStat(
+                        station_id=station_id,
+                        year=year,
+                        avg_max_temp=avg_max,
+                        avg_min_temp=avg_min,
+                        total_precip_cm=total_prcp,
+                    )
+                )
 
             # Bulk insert all computed stats
             with transaction.atomic():

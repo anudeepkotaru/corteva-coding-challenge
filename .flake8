@@ -1,0 +1,17 @@
+[flake8]
+# Set the max line length to match black
+max-line-length = 88
+
+# Ignore errors that conflict with black's style
+ignore = E203, E501, W503
+
+# Exclude files/folders that you don't want to check
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    migrations/, # Crucial for Django
+    manage.py,
+    */settings.py

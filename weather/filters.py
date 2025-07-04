@@ -2,8 +2,9 @@ import django_filters
 from datetime import datetime
 from .models import WeatherRecord
 
+
 class WeatherRecordFilter(django_filters.FilterSet):
-    date = django_filters.CharFilter(method='filter_date')
+    date = django_filters.CharFilter(method="filter_date")
 
     def filter_date(self, queryset, name, value):
         parsed_date = None
@@ -20,4 +21,4 @@ class WeatherRecordFilter(django_filters.FilterSet):
 
     class Meta:
         model = WeatherRecord
-        fields = ['station_id', 'date']
+        fields = ["station_id", "date"]
