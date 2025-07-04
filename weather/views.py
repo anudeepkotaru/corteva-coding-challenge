@@ -5,12 +5,20 @@ from .serializers import WeatherRecordSerializer, WeatherStatSerializer
 from .filters import WeatherRecordFilter
 
 class WeatherListView(generics.ListAPIView):
-    queryset = WeatherRecord.objects.all().order_by('date')
+    """
+    API endpoint to view weather records with filtering and pagination.
+    Filter by station_id and date (YYYY-MM-DD).
+    """
+    queryset = WeatherRecord.objects.all().order_by('station_id', 'date')
     serializer_class = WeatherRecordSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = WeatherRecordFilter
 
 class WeatherStatsView(generics.ListAPIView):
-    queryset = WeatherStat.objects.all().order_by('year')
+    """
+    API endpoint to view weather statistics.
+    Filter by station_id and year.
+    """
+    queryset = WeatherStat.objects.all().order_by('station_id', 'year')
     serializer_class = WeatherStatSerializer
     filterset_fields = ['station_id', 'year']
