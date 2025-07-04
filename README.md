@@ -134,7 +134,7 @@ python manage.py test weather
 * Deploy on **AWS Elastic Beanstalk** or **ECS + Fargate**
 * Schedule `ingest_weather` via **AWS Lambda + EventBridge**
 
-* Check for detailed workflow in answers folder ([`/deployment.md/`])(https://github.com/anudeepkotaru/corteva-coding-challenge/blob/main/answers/deployment.md)
+* Check for detailed workflow in answers folder -> [`/deployment.md/`](https://github.com/anudeepkotaru/corteva-coding-challenge/blob/main/answers/deployment.md)
 ---
 
 Created for the Corteva Agriscience Geospatial Data Engineer Coding Challenge.
