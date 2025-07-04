@@ -52,7 +52,7 @@ pip install Django djangorestframework drf-yasg django-filter tqdm psycopg2 flak
 
 ### 4. Configure database (PostgreSQL)
 
-Update `settings.py` with your PostgreSQL credentials:
+Create a `weatherdb` database in your local postgres and update `settings.py` with your PostgreSQL credentials:
 
 ```python
 DATABASES = {
