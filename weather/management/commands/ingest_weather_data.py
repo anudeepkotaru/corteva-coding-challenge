@@ -53,7 +53,7 @@ def parse_line(line: str, station_id: str) -> WeatherRecord | None:
         if num == -9999:
             return None
         else:
-            num = int(num) / 10
+            num = int(num) / 10  # Unit conversion
             return num
 
     return WeatherRecord(
@@ -76,6 +76,7 @@ class Command(BaseCommand):
             data_dir = pathlib.Path(WX_DATA_DIR).resolve()
             batch_size = 5000
 
+            # Check if the input directory path exists or not
             if not data_dir.exists():
                 raise CommandError(f"Directory not found: {data_dir}")
             start_time = datetime.now()
@@ -97,7 +98,9 @@ class Command(BaseCommand):
 
                     for line in f:
                         total_records += 1
-                        record = parse_line(line, station_id)
+                        record = parse_line(
+                            line, station_id
+                        )  # Extracting the weather information
                         if record:
                             buffer.append(record)
 
@@ -106,7 +109,9 @@ class Command(BaseCommand):
                             buffer.clear()
 
                     if buffer:
-                        created_records += self._bulk_insert(buffer)
+                        created_records += self._bulk_insert(
+                            buffer
+                        )  # Inserting in to database
 
             end_time = datetime.now()
             logging.info(
@@ -116,7 +121,7 @@ class Command(BaseCommand):
             logging.critical(f"Ingestion failed: {e}")
 
     @staticmethod
-    @transaction.atomic
+    @transaction.atomic  # Ensuring database atomicity and data integrity
     def _bulk_insert(records: List[WeatherRecord]) -> int:
         if not records:
             return 0

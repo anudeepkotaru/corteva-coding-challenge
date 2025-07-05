@@ -43,4 +43,4 @@ class WeatherRecordFilter(django_filters.FilterSet):
 
     class Meta:
         model = WeatherRecord
-        fields = ["station_id", "date"]     # Supported filter fields
+        fields = ["station_id", "date"]  # Supported filter fields

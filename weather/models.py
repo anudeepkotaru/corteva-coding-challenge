@@ -20,10 +20,13 @@ class WeatherRecord(models.Model):
     precipitation = models.FloatField(null=True)
 
     class Meta:
-        unique_together = ("station_id", "date")    # Ensure no duplicate entries per station per day
+        unique_together = (
+            "station_id",
+            "date",
+        )  # Ensure no duplicate entries per station per day
         indexes = [
-            models.Index(fields=["station_id"]),    # Index for faster station queries
-            models.Index(fields=["date"]),          # Index for filtering by date
+            models.Index(fields=["station_id"]),  # Index for faster station queries
+            models.Index(fields=["date"]),  # Index for filtering by date
         ]
 
 
@@ -46,8 +49,11 @@ class WeatherStat(models.Model):
     total_precip_cm = models.FloatField(null=True)
 
     class Meta:
-        unique_together = ("station_id", "year")    # Ensure no duplicate entries per station per day
+        unique_together = (
+            "station_id",
+            "year",
+        )  # Ensure no duplicate entries per station per day
         indexes = [
-            models.Index(fields=["station_id"]),    # Index for faster station queries
-            models.Index(fields=["year"]),          # Index for filtering by year
+            models.Index(fields=["station_id"]),  # Index for faster station queries
+            models.Index(fields=["year"]),  # Index for filtering by year
         ]

@@ -66,7 +66,7 @@ class Command(BaseCommand):
                     r.precipitation for r in recs if r.precipitation is not None
                 ]
 
-                # Compute average and totals
+                # Compute average and totals by allowing up to 2 decimals
                 avg_max = round(sum(max_vals) / len(max_vals), 2) if max_vals else None
                 avg_min = round(sum(min_vals) / len(min_vals), 2) if min_vals else None
                 total_prcp = (

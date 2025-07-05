@@ -9,13 +9,14 @@ class WeatherRecordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeatherRecord
-        fields = "__all__"
+        fields = "__all__"  # Includes all fields
 
 
 class WeatherStatSerializer(serializers.ModelSerializer):
     """
     Serializer for the WeatherRecord model.
     """
+
     class Meta:
         model = WeatherStat
-        fields = "__all__"
+        fields = "__all__"  # Includes all fields
